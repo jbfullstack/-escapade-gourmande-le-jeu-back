@@ -11,8 +11,7 @@ export class AppController {
   }
 
   @Get('/turn-the-wheel')
-  turnTheWheel(@Ip() ip): number {
-    console.log(ip);
-    return this.appService.turnTheWheel();
+  async turnTheWheel(@Ip() ip): Promise<number> {
+    return await this.appService.turnTheWheel(ip);
   }
 }
