@@ -14,8 +14,8 @@ export class UsersMemoryStorage
 
   onApplicationBootstrap() {
     this.redisClient = new Redis({
-      host: 'localhost', // NOTE: According to best practices, we should use the environment variables here instead.
-      port: 6379,
+      host: process.env.REDIS_HOST, //'localhost', // NOTE: According to best practices, we should use the environment variables here instead.
+      port: parseInt(process.env.REDIS_PORT, 10), // 6379
     });
   }
 
