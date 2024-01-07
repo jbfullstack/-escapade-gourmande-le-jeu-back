@@ -8,7 +8,7 @@ export class AppService {
   constructor(private readonly userMemoryStorage: UsersMemoryStorage) {}
 
   getHello(): string {
-    return 'Hello World!';
+    return `L'escapade gourmande - le jeu (backend server) `;
   }
 
   async turnTheWheel(ip: string): Promise<number> {
@@ -18,5 +18,7 @@ export class AppService {
     } else {
       return -1;
     }
+    // const randomNumber = Math.floor(Math.random() * this.MAX_RNG_VALUE);
+    // return randomNumber;
   }
 }
