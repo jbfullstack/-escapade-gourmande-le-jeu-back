@@ -28,23 +28,29 @@ export class UsersMemoryStorage
   }
 
   async validate(userIp: string): Promise<boolean> {
-    const currentDate = new Date();
-    const storedEventDate = await this.redisClient.get(this.getKey(userIp));
+    try {
+      const currentDate = new Date();
+      const storedEventDate = await this.redisClient.get(this.getKey(userIp));
 
-    // store current event date
-    await this.insert(userIp, currentDate.toISOString());
+      // store current event date
+      await this.insert(userIp, currentDate.toISOString());
 
-    if (storedEventDate == null) {
-      return true;
-    }
+      if (storedEventDate == null) {
+        return true;
+      }
 
-    const parsedStoredEventDate = new Date(storedEventDate);
-    const timeDifferenceInMilliseconds = Math.abs(
-      currentDate.getTime() - parsedStoredEventDate.getTime(),
-    );
+      const parsedStoredEventDate = new Date(storedEventDate);
+      const timeDifferenceInMilliseconds = Math.abs(
+        currentDate.getTime() - parsedStoredEventDate.getTime(),
+      );
 
-    if (timeDifferenceInMilliseconds >= this.fourHoursInMilliseconds) {
-      return true;
+      if (timeDifferenceInMilliseconds >= this.fourHoursInMilliseconds) {
+        return true;
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'utilisation de Redis (validate):", error);
+    } finally {
+      //   this.redisClient.quit();
     }
 
     return false;
